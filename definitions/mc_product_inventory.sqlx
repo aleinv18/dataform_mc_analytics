@@ -1,0 +1,28 @@
+config { 
+    type: "table",
+    bigquery: {
+        partitionBy: "date",
+        clusterBy: ["product_id"]
+    },
+    tags: "0: Mapping Table" 
+}
+-- get mapping table to join rank (bestsellers) and productfeed
+
+SELECT
+    "Farmaeit" as business_unit,
+    *
+FROM
+    `${config.FARMAEIT_GCP_ID}.mc_${config.FARMAEIT_MC_ID}.BestSellers_TopProducts_Inventory_${config.FARMAEIT_GCP_ID}`
+WHERE
+    (regexp_contains(rank_id, ':it:')) 
+
+UNION ALL
+
+SELECT
+    "Amicafarmacia" as business_unit,
+    *
+FROM
+    `${config.AMICAFARMACIA_GCP_ID}.mc_${config.AMICAFARMACIA_MC_ID}.BestSellers_TopProducts_Inventory_${config.AMICAFARMACIA_MC_ID}`
+WHERE
+    (regexp_contains(rank_id, ':it:'))
+    

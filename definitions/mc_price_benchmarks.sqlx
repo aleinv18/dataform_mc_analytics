@@ -1,0 +1,32 @@
+config { 
+    type: "table",
+    bigquery: {
+        partitionBy: "date",
+        clusterBy: ["product_id"]
+    },
+    tags: "0: Price Benchmarks" 
+}
+
+
+-- -- get price benchmark information
+
+SELECT
+    "Farmaeit" as business_unit,
+    _partitiondate as date,
+    *
+FROM
+    `${config.FARMAEIT_GCP_ID}.mc_${config.FARMAEIT_MC_ID}.Products_PriceBenchmarks_${config.FARMAEIT_MC_ID}`
+WHERE
+    country_of_sale in ('it')  
+
+UNION ALL
+
+SELECT
+    "Amicafarmacia" as business_unit,
+    _partitiondate as date,
+    *
+FROM
+    `${config.FARMAEIT_GCP_ID}.mc_${config.FARMAEIT_MC_ID}.Products_PriceBenchmarks_${config.FARMAEIT_MC_ID}`
+WHERE
+    country_of_sale in ('it')  
+    

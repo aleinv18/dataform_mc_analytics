@@ -1,0 +1,32 @@
+config { 
+    type: "table",
+    bigquery: {
+        partitionBy: "date",
+        clusterBy: ["product_id"]
+    },
+    tags: "0: Product Feed" 
+}
+
+
+-- get productfeed uploaded
+
+SELECT
+    "Farmaeit" as business_unit,
+    _partitiondate as date,
+    *
+FROM
+    `${config.FARMAEIT_GCP_ID}.mc_${config.FARMAEIT_MC_ID}.Products_${config.FARMAEIT_MC_ID}`
+WHERE
+    target_country in ('it')  
+
+UNION ALL
+
+SELECT
+    "Amicafarmacia" as business_unit,
+    _partitiondate as date,
+    *
+FROM
+    `${config.AMICAFARMACIA_GCP_ID}.mc_${config.AMICAFARMACIA_MC_ID}.Products_${config.AMICAFARMACIA_MC_ID}`
+WHERE
+    target_country in ('it')  
+    

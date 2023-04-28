@@ -1,0 +1,6 @@
+{
+  "name": "mc_analytics",
+  "dependencies": {
+    "@dataform/core": "2.0.1"
+  }
+}
