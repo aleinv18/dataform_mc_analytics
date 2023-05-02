@@ -10,7 +10,7 @@ config {
 
 SELECT
     "Farmaeit" as business_unit,
-    SUBSTRING(rank_id, 0,10) as date,
+    PARSE_DATE("%Y-%m-%d", SUBSTRING(rank_id, 0,10)) as date,
     *
 FROM
     `${config.FARMAEIT_GCP_ID}.mc_${config.FARMAEIT_MC_ID}.BestSellers_TopProducts_Inventory_${config.FARMAEIT_MC_ID}`
@@ -21,7 +21,7 @@ UNION ALL
 
 SELECT
     "Amicafarmacia" as business_unit,
-    SUBSTRING(rank_id, 0,10) as date,
+    PARSE_DATE("%Y-%m-%d", SUBSTRING(rank_id, 0,10)) as date,
     *
 FROM
     `${config.AMICAFARMACIA_GCP_ID}.mc_${config.AMICAFARMACIA_MC_ID}.BestSellers_TopProducts_Inventory_${config.AMICAFARMACIA_MC_ID}`
