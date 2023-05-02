@@ -1,0 +1,42 @@
+config { 
+    type: "table",
+    bigquery: {
+        partitionBy: "date",
+        clusterBy: ["product_id"]
+    },
+    tags: "2: Final Product Data" 
+}
+
+
+SELECT
+    products.date,
+    products.product_id as product_id_gms,
+    split(products.product_id, ':')[safe_offset(3)] as product_id,
+    products.target_country,
+    products.title,
+    products.price.value,
+    benchmarks.price_benchmark_value,
+    (cast(benchmarks.price_benchmark_value as float64) - cast(products.price.value as float64)) as price_benchmark_diff,
+    benchmarks.price_benchmark_currency,
+    bestsellers.rank,
+    bestsellers.previous_rank,
+    bestsellers.price_range_min,
+    bestsellers.price_range_max,
+    bestsellers.relative_demand_min,
+    bestsellers.relative_demand_max,
+    bestsellers.relative_demand_bucket,
+    bestsellers.previous_relative_demand_min,
+    bestsellers.previous_relative_demand_max,
+    bestsellers.previous_relative_demand_bucket
+FROM 
+    ${ref('mc_products')} as products
+-- join price benchmark data
+LEFT JOIN 
+    ${ref('mc_price_benchmarks')} as benchmarks
+    on products.product_id = benchmarks.product_id
+    and products.date = benchmarks.date
+-- join bestseller data
+LEFT JOIN 
+    ${ref('mc_bestsellers')} as bestsellers
+    on products.product_id = bestsellers.product_id
+    and products.date = bestsellers.date

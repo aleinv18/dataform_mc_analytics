@@ -1,0 +1,80 @@
+config { 
+    type: "table",
+    bigquery: {
+        partitionBy: "date",
+        clusterBy: ["product_id"]
+    },
+    tags: "1: Bestseller" 
+}
+
+SELECT  
+    "Farmaeit" as business_unit,
+    _partitiondate as date,
+    inventory.product_id as product_id,
+    bestseller.rank_timestamp,
+    bestseller.rank_id,
+    bestseller.rank,
+    bestseller.previous_rank,
+    if(inventory.product_id is null,false,true) as product_in_inventory,
+    bestseller.ranking_country,
+    bestseller.ranking_category as ranking_category_id,
+    (select name from bestseller.ranking_category_path where locale = 'nl-nl') as ranking_category_path,
+    (select name from bestseller.product_title where locale = 'nl-nl') as product_title,
+    concat(gtins[safe_offset(0)],'|',gtins[safe_offset(1)],'|',gtins[safe_offset(2)],'|') as gtins,
+    bestseller.brand,
+    bestseller.google_brand_id,
+    bestseller.google_product_category as google_product_category_id,
+    (select name from bestseller.google_product_category_path where locale = 'nl-nl') as google_category_path,
+    bestseller.price_range.min as price_range_min,
+    bestseller.price_range.max as price_range_max,
+    bestseller.price_range.currency as price_range_currency,
+    bestseller.relative_demand.min as relative_demand_min,
+    bestseller.relative_demand.max as relative_demand_max,
+    bestseller.relative_demand.bucket as relative_demand_bucket,
+    bestseller.previous_relative_demand.min as previous_relative_demand_min,
+    bestseller.previous_relative_demand.max as previous_relative_demand_max,
+    bestseller.previous_relative_demand.bucket as previous_relative_demand_bucket
+FROM 
+    `${config.FARMAEIT_GCP_ID}.mc_${config.FARMAEIT_MC_ID}.BestSellers_TopProducts_${config.FARMAEIT_MC_ID}` as bestseller
+-- only join products when available in the productfeed and the bestsellers list
+INNER JOIN ${ref("mc_product_inventory")} as inventory
+    on bestseller.rank_id = inventory.rank_id
+WHERE 
+    ranking_country in ('it') 
+
+UNION ALL
+
+SELECT  
+    "Amicafarmacia" as business_unit,
+    _partitiondate as date,
+    inventory.product_id as product_id,
+    bestseller.rank_timestamp,
+    bestseller.rank_id,
+    bestseller.rank,
+    bestseller.previous_rank,
+    if(inventory.product_id is null,false,true) as product_in_inventory,
+    bestseller.ranking_country,
+    bestseller.ranking_category as ranking_category_id,
+    (select name from bestseller.ranking_category_path where locale = 'nl-nl') as ranking_category_path,
+    (select name from bestseller.product_title where locale = 'nl-nl') as product_title,
+    concat(gtins[safe_offset(0)],'|',gtins[safe_offset(1)],'|',gtins[safe_offset(2)],'|') as gtins,
+    bestseller.brand,
+    bestseller.google_brand_id,
+    bestseller.google_product_category as google_product_category_id,
+    (select name from bestseller.google_product_category_path where locale = 'nl-nl') as google_category_path,
+    bestseller.price_range.min as price_range_min,
+    bestseller.price_range.max as price_range_max,
+    bestseller.price_range.currency as price_range_currency,
+    bestseller.relative_demand.min as relative_demand_min,
+    bestseller.relative_demand.max as relative_demand_max,
+    bestseller.relative_demand.bucket as relative_demand_bucket,
+    bestseller.previous_relative_demand.min as previous_relative_demand_min,
+    bestseller.previous_relative_demand.max as previous_relative_demand_max,
+    bestseller.previous_relative_demand.bucket as previous_relative_demand_bucket
+FROM 
+    `${config.FARMAEIT_GCP_ID}.mc_${config.FARMAEIT_MC_ID}.BestSellers_TopProducts_${config.FARMAEIT_MC_ID}` as bestseller
+-- only join products when available in the productfeed and the bestsellers list
+INNER JOIN ${ref("mc_product_inventory")} as inventory
+    on bestseller.rank_id = inventory.rank_id
+WHERE 
+    ranking_country in ('it') 
