@@ -15,6 +15,7 @@ SELECT
     split(products.product_id, ':')[safe_offset(3)] as product_id,
     products.target_country,
     products.title,
+    products.availability,
     products.price.value,
     benchmarks.price_benchmark_value,
     (cast(benchmarks.price_benchmark_value as float64) - cast(products.price.value as float64)) as price_benchmark_diff,

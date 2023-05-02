@@ -17,7 +17,7 @@ SELECT
 FROM
     `${config.FARMAEIT_GCP_ID}.mc_${config.FARMAEIT_MC_ID}.Products_${config.FARMAEIT_MC_ID}`
 WHERE
-    target_country in ('it')  
+    feed_label in ('IT') AND SPLIT(product_id, ":")[OFFSET(0)] = 'online'
 
 UNION ALL
 
@@ -28,5 +28,5 @@ SELECT
 FROM
     `${config.AMICAFARMACIA_GCP_ID}.mc_${config.AMICAFARMACIA_MC_ID}.Products_${config.AMICAFARMACIA_MC_ID}`
 WHERE
-    target_country in ('it')  
+    feed_label IN ('IT') AND SPLIT(product_id, ":")[OFFSET(0)] = 'online'
     

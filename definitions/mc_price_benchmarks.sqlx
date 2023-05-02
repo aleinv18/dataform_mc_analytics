@@ -17,7 +17,7 @@ SELECT
 FROM
     `${config.FARMAEIT_GCP_ID}.mc_${config.FARMAEIT_MC_ID}.Products_PriceBenchmarks_${config.FARMAEIT_MC_ID}`
 WHERE
-    country_of_sale in ('it')  
+    country_of_sale in ('IT')  
 
 UNION ALL
 
@@ -28,5 +28,5 @@ SELECT
 FROM
     `${config.FARMAEIT_GCP_ID}.mc_${config.FARMAEIT_MC_ID}.Products_PriceBenchmarks_${config.FARMAEIT_MC_ID}`
 WHERE
-    country_of_sale in ('it')  
+    country_of_sale in ('IT')  
     

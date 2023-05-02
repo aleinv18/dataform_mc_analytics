@@ -40,7 +40,7 @@ FROM
 INNER JOIN ${ref("mc_product_inventory")} as inventory
     on bestseller.rank_id = inventory.rank_id
 WHERE 
-    ranking_country in ('it') 
+    ranking_country in ('IT') 
 
 UNION ALL
 
@@ -77,4 +77,4 @@ FROM
 INNER JOIN ${ref("mc_product_inventory")} as inventory
     on bestseller.rank_id = inventory.rank_id
 WHERE 
-    ranking_country in ('it') 
+    ranking_country in ('IT') 

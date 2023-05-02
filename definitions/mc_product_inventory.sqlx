@@ -15,7 +15,7 @@ SELECT
 FROM
     `${config.FARMAEIT_GCP_ID}.mc_${config.FARMAEIT_MC_ID}.BestSellers_TopProducts_Inventory_${config.FARMAEIT_MC_ID}`
 WHERE
-    (regexp_contains(rank_id, ':it:')) 
+    (regexp_contains(rank_id, ':IT:')) 
 
 UNION ALL
 
@@ -26,5 +26,5 @@ SELECT
 FROM
     `${config.AMICAFARMACIA_GCP_ID}.mc_${config.AMICAFARMACIA_MC_ID}.BestSellers_TopProducts_Inventory_${config.AMICAFARMACIA_MC_ID}`
 WHERE
-    (regexp_contains(rank_id, ':it:'))
+    (regexp_contains(rank_id, ':IT:'))
     
