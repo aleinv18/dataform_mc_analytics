@@ -1,6 +1,6 @@
 {
-  "defaultSchema": "dataform",
-  "assertionSchema": "dataform_assertions",
+  "defaultSchema": "merchant",
+  "assertionSchema": "bq_assertions",
   "warehouse": "bigquery",
   "defaultDatabase": "farmaegroup-marketing-analysis",
   "defaultLocation": "EU"
